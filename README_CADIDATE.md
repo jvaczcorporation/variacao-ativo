@@ -2,7 +2,9 @@
 
 **(Leia até o final)**
 
-Para realização do teste foram criados 2 projetos, sendo um nativo android. Esse primeiro consome o segundo projeto flutter como module. É possível rodar o projeto flutter de maneira independente. 
+Para realização do teste foram criados 2 projetos, sendo um nativo android 'asset_variation_native', esse primeiro consome o segundo projeto flutter 'asset_variation_flutter_module' como module. 
+
+É possível rodar o projeto flutter de maneira independente. 
 
 Para executar o projeto nativo acoplado com flutter é necessário gerar o build aar, para isso execute:
  
