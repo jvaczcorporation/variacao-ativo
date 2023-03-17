@@ -1,17 +1,24 @@
+import 'package:asset_variation_flutter_module/app/commons/presentation/app_theme.dart';
 import 'package:asset_variation_flutter_module/app/modules/example/domain/entities/asset_chart_entity.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
-class ChartView extends StatelessWidget {
+class ChartView extends StatefulWidget {
   final List<FlSpot> spots;
   final AssetChartEntity asset;
 
-  ChartView({
+  const ChartView({
     super.key,
     required this.spots,
     required this.asset,
   });
 
+  @override
+  State<ChartView> createState() => _ChartViewState();
+}
+
+class _ChartViewState extends State<ChartView> {
   List<Color> gradientColors = const [
     Color(0xFF8142db),
     Color(0xFF320896),
@@ -19,25 +26,45 @@ class ChartView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: Colors.black,
-      child: AspectRatio(
-        aspectRatio: 1.70,
-        child: Padding(
-          padding: const EdgeInsets.only(
-            right: 18,
-            left: 12,
-            top: 24,
-            bottom: 12,
-          ),
-          child: LineChart(avgData()),
+    return AspectRatio(
+      aspectRatio: 1.70,
+      child: Padding(
+        padding: const EdgeInsets.only(
+          right: 18,
+          left: 12,
+          top: 24,
+          bottom: 12,
+        ),
+        child: LineChart(
+          chartBuild(),
         ),
       ),
     );
   }
 
-  LineChartData avgData() {
+  LineChartData chartBuild() {
     return LineChartData(
+      lineTouchData: LineTouchData(
+        touchTooltipData: LineTouchTooltipData(
+          getTooltipItems: (value) {
+            return value
+                .map(
+                  (e) => LineTooltipItem(
+                    "Valor: ${NumberFormat.simpleCurrency(locale: "pt_BR").format(e.y)} \n Data: ${DateFormat.yMd("pt_BR").format(
+                      widget.asset.timestamp[e.x.round()],
+                    )}",
+                    const TextStyle(
+                      fontSize: 12,
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                )
+                .toList();
+          },
+          tooltipBgColor: AppTheme.purple.withOpacity(0.3),
+        ),
+      ),
       gridData: FlGridData(
         show: false,
         drawHorizontalLine: true,
@@ -54,15 +81,19 @@ class ChartView extends StatelessWidget {
         leftTitles: AxisTitles(
           sideTitles: SideTitles(
             showTitles: true,
-            reservedSize: 42,
+            reservedSize: 30,
             interval: 1,
           ),
         ),
         topTitles: AxisTitles(
-          sideTitles: SideTitles(showTitles: false),
+          sideTitles: SideTitles(
+            showTitles: false,
+          ),
         ),
         rightTitles: AxisTitles(
-          sideTitles: SideTitles(showTitles: false),
+          sideTitles: SideTitles(
+            showTitles: false,
+          ),
         ),
       ),
       borderData: FlBorderData(
@@ -70,12 +101,12 @@ class ChartView extends StatelessWidget {
         border: Border.all(color: const Color(0xff37434d)),
       ),
       minX: 0,
-      maxX: spots.length.toDouble(),
-      minY: asset.avg - 5,
-      maxY: asset.avg + 5,
+      maxX: (widget.spots.length - 1).toDouble(),
+      minY: widget.asset.avg - 5,
+      maxY: widget.asset.avg + 5,
       lineBarsData: [
         LineChartBarData(
-          spots: spots,
+          spots: widget.spots,
           isCurved: true,
           gradient: LinearGradient(
             colors: [
@@ -85,7 +116,7 @@ class ChartView extends StatelessWidget {
                   .lerp(0.2)!,
             ],
           ),
-          barWidth: 5,
+          barWidth: 2,
           isStrokeCapRound: true,
           dotData: FlDotData(
             show: false,

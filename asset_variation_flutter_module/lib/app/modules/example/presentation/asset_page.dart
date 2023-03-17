@@ -4,6 +4,7 @@ import 'package:asset_variation_flutter_module/app/modules/example/presentation/
 import 'package:asset_variation_flutter_module/app/modules/example/presentation/widgets/search_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:asset_variation_flutter_module/app/modules/example/presentation/asset_controller.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
 
@@ -47,12 +48,18 @@ class _AssetPageState extends State<AssetPage> {
           _getTitle,
         ),
         centerTitle: true,
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () {
+            SystemNavigator.pop();
+          },
+        ),
       ),
       body: Obx(
         () {
           if (controller.store.hasError) {
             return const Center(
-              child: Text("Error loading data!"),
+              child: Text("Falha ao carregar dados!"),
             );
           }
 
@@ -78,7 +85,7 @@ class _AssetPageState extends State<AssetPage> {
                 ),
                 if (!controller.store.anythigData)
                   const Text(
-                    "No data loaded!",
+                    "Nenhum dado carregado!",
                   ),
                 if (controller.store.anythigData)
                   Expanded(
@@ -97,14 +104,12 @@ class _AssetPageState extends State<AssetPage> {
                             ),
                           ),
                         ),
-                        if (controller.store.anythigData &&
-                            controller.store.viewType == ViewType.chart)
+                        if (controller.store.viewType == ViewType.chart)
                           ChartView(
                             asset: controller.store.data!,
                             spots: controller.store.spots,
                           ),
-                        if (controller.store.anythigData &&
-                            controller.store.viewType == ViewType.table)
+                        if (controller.store.viewType == ViewType.table)
                           Expanded(
                             child: TableView(
                               asset: controller.store.data!,

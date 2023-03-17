@@ -1,5 +1,6 @@
 import 'package:asset_variation_flutter_module/app/commons/domain/enums/store_state.dart';
 import 'package:asset_variation_flutter_module/app/commons/domain/enums/visualization_type.dart';
+import 'package:asset_variation_flutter_module/app/commons/domain/erros/errors.dart';
 import 'package:asset_variation_flutter_module/app/modules/example/domain/use_cases/get_asset_chart_data_use_case.dart';
 import 'package:asset_variation_flutter_module/app/modules/example/domain/use_cases/search_asset_use_case.dart';
 import 'package:asset_variation_flutter_module/app/modules/example/presentation/asset_store.dart';
@@ -27,9 +28,13 @@ class AssetController {
           await getAssetChartDataUseCase(symbol: store.assetSelected!.symbol);
 
       store.state = StoreState.completed;
-    } on Exception catch (e) {
+    } on Failure catch (e) {
       store.state = StoreState.error;
       store.exception = e;
+      store.error = e.message;
+    } catch (e) {
+      store.state = StoreState.error;
+      store.exception = e as Exception;
       store.error = e.toString();
     }
   }
