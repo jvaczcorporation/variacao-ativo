@@ -6,15 +6,15 @@ class AssetMapper {
     AssetModel model,
   ) =>
       AssetEntity(
-        timestamp: model.timestamp,
-        openQuote: model.openQuote,
+        shortname: model.shortname,
+        symbol: model.symbol,
       );
 
   static AssetModel toModel(
     AssetEntity entity,
   ) =>
       AssetModel(
-        timestamp: entity.timestamp,
-        openQuote: entity.openQuote,
+        shortname: entity.shortname,
+        symbol: entity.symbol,
       );
 }

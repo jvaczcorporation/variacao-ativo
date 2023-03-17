@@ -1,5 +1,6 @@
 import 'package:asset_variation_flutter_module/app/modules/example/data/repositories/asset_repository_impl.dart';
-import 'package:asset_variation_flutter_module/app/modules/example/domain/use_cases/get_asset_use_case.dart';
+import 'package:asset_variation_flutter_module/app/modules/example/domain/use_cases/get_asset_chart_data_use_case.dart';
+import 'package:asset_variation_flutter_module/app/modules/example/domain/use_cases/search_asset_use_case.dart';
 import 'package:asset_variation_flutter_module/app/modules/example/infra/remote/asset_datasource_impl.dart';
 import 'package:asset_variation_flutter_module/app/modules/example/presentation/asset_controller.dart';
 import 'package:asset_variation_flutter_module/app/modules/example/presentation/asset_page.dart';
@@ -20,17 +21,23 @@ class AssetModule extends Module {
           ),
         ),
         Bind.factory(
-          (i) => GetAssetUseCaseImpl(
+          (i) => GetAssetChartDataUseCaseImpl(
             repository: i(),
           ),
         ),
         Bind.factory(
+          (i) => SearchAssetUseCaseImpl(
+            repository: i(),
+          ),
+        ),
+        Bind.singleton(
           (i) => AssetStore(),
         ),
         Bind.factory(
           (i) => AssetController(
             store: i(),
-            getAssetUseCase: i(),
+            getAssetChartDataUseCase: i(),
+            searchAssetUseCase: i(),
           ),
         ),
       ];

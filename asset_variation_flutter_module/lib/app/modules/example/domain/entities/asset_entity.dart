@@ -1,16 +1,17 @@
 import 'package:equatable/equatable.dart';
 
 class AssetEntity extends Equatable {
-  final List<DateTime> timestamp;
-  final List<double?> openQuote;
+  final String shortname;
+  final String symbol;
 
   const AssetEntity({
-    required this.timestamp,
-    required this.openQuote,
+    required this.shortname,
+    required this.symbol,
   });
 
   @override
   List<Object?> get props => [
-        timestamp,
+        shortname,
+        symbol,
       ];
 }

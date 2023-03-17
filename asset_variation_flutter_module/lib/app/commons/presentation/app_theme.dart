@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class AppTheme {
-  static const MaterialColor purple = MaterialColor(
+  static const MaterialColor purpleMaterial = MaterialColor(
     0xFF6200EE,
     <int, Color>{
       50: Color(0xFF6200EE),
@@ -16,4 +16,6 @@ class AppTheme {
       900: Color(0xFF6200EE),
     },
   );
+
+  static const Color purple = Color(0xFF6200EE);
 }
