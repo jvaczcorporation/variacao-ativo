@@ -61,8 +61,12 @@ class AssetDatasourceImpl implements AssetDatasource {
       }
 
       final data = result.data["quotes"] as List;
-      final validData = data
-          .where((item) => item["shortname"] != null && item["symbol"] != null);
+      final validData = data.where(
+        (item) =>
+            item["shortname"] != null &&
+            item["symbol"] != null &&
+            item["exchange"] == "SAO",
+      );
 
       final listModel =
           validData.map((item) => AssetModel.fromJson(item)).toList();

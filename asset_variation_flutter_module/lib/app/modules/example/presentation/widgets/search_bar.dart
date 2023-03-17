@@ -26,7 +26,7 @@ class _SearchBarState extends State<SearchBar> {
           const Padding(
             padding: EdgeInsets.all(8.0),
             child: Text(
-              "Buscar por código: ",
+              "Buscar ativo: ",
               style: TextStyle(
                 color: Colors.white,
                 fontWeight: FontWeight.w900,
